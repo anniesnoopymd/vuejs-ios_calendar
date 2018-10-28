@@ -1,0 +1,23 @@
+#app
+   .phone
+      .calendar
+         .head
+            .tag(v-for="tag in tags") {{tag}}
+         .body
+            .daybox(v-for = "(day,day_id) in days" ,
+            v-bind:class = "day_id===selected_day ? 'active': ''", 
+            @click = "selected_day = day_id",
+            :style = "get_pan(day_id)") 
+               .infos 
+                  .num {{day.number}}
+                  .lunar {{lunar(day.number+lunar_pan)}}
+               .eventdot(v-show="day.events.length>0") 
+               
+         ul.todos
+            li.items
+               .time 24:00
+               .title 去運動
+            li.items
+               .time 10:00
+               .title 去整理房間
+               

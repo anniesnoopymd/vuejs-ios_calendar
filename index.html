@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>iOS Calendar</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  
+<div id="app">
+  <div class="phone">
+    <div class="calendar">
+      <div class="head">
+        <div class="tag" v-for="tag in tags">{{tag}}</div>
+      </div>
+      <div class="body">
+        <div class="daybox" v-for="(day,day_id) in days" v-bind:class="day_id===selected_day ? 'active': ''" @click="selected_day = day_id" :style="get_pan(day_id)"> 
+          <div class="infos"> 
+            <div class="num">{{day.number}}</div>
+            <div class="lunar">{{lunar(day.number+lunar_pan)}}</div>
+          </div>
+          <div class="eventdot" v-show="day.events.length&gt;0"> </div>
+        </div>
+      </div>
+      <ul class="todos">
+        <li class="items">
+          <div class="time">24:00</div>
+          <div class="title">去運動</div>
+        </li>
+        <li class="items">
+          <div class="time">10:00</div>
+          <div class="title">去整理房間</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
