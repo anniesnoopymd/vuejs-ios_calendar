@@ -19,6 +19,7 @@
 <div id="app">
   <div class="phone">
     <div class="calendar">
+      <div class="head_title">微安der行事曆</div>
       <div class="head">
         <div class="tag" v-for="tag in tags">{{tag}}</div>
       </div>
@@ -31,17 +32,19 @@
           <div class="eventdot" v-show="day.events.length&gt;0"> </div>
         </div>
       </div>
-      <ul class="todos">
-        <li class="items">
-          <div class="time">24:00</div>
-          <div class="title">去運動</div>
+      <transition-group class="todos" tag="ul" name="fade" mode="out-in">
+        <li class="items" v-for="(todo,todo_id) in now_events" :key="todo">
+          <div class="time">{{todo.time}}</div>
+          <div class="title">{{todo.title}}</div>
+          <div class="remove_btn" @click="now_events.splice(todo_id,1)">x</div>
         </li>
-        <li class="items">
-          <div class="time">10:00</div>
-          <div class="title">去整理房間</div>
-        </li>
-      </ul>
+      </transition-group>
     </div>
+  </div>
+  <div class="form">
+    <input placeholder="事件標題" v-model="new_item.title"/>
+    <input placeholder="時間" v-model="new_item.time"/>
+    <button @click="add_item">加入</button>
   </div>
 </div>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js'></script>

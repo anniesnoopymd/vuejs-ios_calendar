@@ -1,6 +1,7 @@
 #app
    .phone
       .calendar
+         .head_title 微安der行事曆
          .head
             .tag(v-for="tag in tags") {{tag}}
          .body
@@ -13,11 +14,14 @@
                   .lunar {{lunar(day.number+lunar_pan)}}
                .eventdot(v-show="day.events.length>0") 
                
-         ul.todos
-            li.items
-               .time 24:00
-               .title 去運動
-            li.items
-               .time 10:00
-               .title 去整理房間
-               
+         transition-group.todos(tag="ul",name="fade", mode="out-in")
+            li.items(v-for="(todo,todo_id) in now_events" :key="todo")
+               .time {{todo.time}}
+               .title {{todo.title}}
+               .remove_btn(@click="now_events.splice(todo_id,1)") x
+            
+      
+   .form
+      input(placeholder="事件標題" v-model="new_item.title")
+      input(placeholder="時間" v-model="new_item.time")
+      button(@click="add_item") 加入

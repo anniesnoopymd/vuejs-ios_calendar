@@ -5,9 +5,22 @@ var vm = new Vue({
       days: [],
       selected_day: 0,
       start_day: 3,
-      lunar_pan: 5
+      lunar_pan: 5,
+      new_item:{
+         title: "標題",
+         time: "23:00"
+      }
    },
-   mounted (){
+   computed: {
+     now_events (){
+        var day = this.days[this.selected_day];
+        if(day)
+           return this.sort_time(day.events);
+        else
+           return [];
+     } 
+   },
+   mounted() {
       for(var i=1; i<=31 ; i++){
          var new_day = {
             number: i,
@@ -15,11 +28,12 @@ var vm = new Vue({
          };
          if(Math.random() < 0.4){
             var count = Math.random() * 3;
-            var minute = parseInt(Math.random()*3)*15
-            for(var o = 0; o<count;o++){
+            
+            for(var o = 0; o<count ; o++){
+               var minute = parseInt(Math.random()*3)*15
                new_day.events.push({
-                  title: ["整理房間","跟朋友出門","打包行李"][parseInt(Math.random()*3)],
-                  time: parseInt(Math.random()*24)+":"+(minute==0?"0":"")+minute
+                  title: ["傳照片給歐北","吃薯條","寫交換信件","靠北室友","創作"][parseInt(Math.random()*3)],
+                  time: parseInt(Math.random()*24)+":"+(minute==0?"0":"")+ minute
                })
             }
          }
@@ -52,6 +66,18 @@ var vm = new Vue({
          }else if(num < 30){
             return "廿" + this.chinese_num(num%10)
          }
+      },
+      add_item(){
+         this.days[this.selected_day].events.push(
+           JSON.parse(JSON.stringify(this.new_item))
+         );
+      },
+      sort_time(events) {
+         return events.sort(
+            (a,b) => {
+               return parseInt(a.time.replace(":",""))- parseInt(b.time.replace(":",""))
+            }
+         )
       }
    }
 });
